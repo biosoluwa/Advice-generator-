@@ -4,15 +4,19 @@ const adviceId = document.getElementById("advice-id")
 
 buttonElm.addEventListener("click", showAdvice)
 
-function showAdvice(){
-
-    fetch("https://api.adviceslip.com/advice")
-    .then(res => res.json())
-    .then(data => {console.log(data)
-                adviceText.innerHTML = `"${data.slip.advice}"`
-                adviceId.innerHTML = `ADVICE #${data.slip.id}`
-    })
-
+async function showAdvice(){
+    try{
+         const response = await fetch("https://api.adviceslip.com/advice")
+         if(!response.ok){
+            throw Error ("Something went wrong")
+         }
+         const data = await response.json()
+         console.log(data)
+         adviceText.innerHTML = `"${data.slip.advice}"`
+         adviceId.innerHTML = `ADVICE #${data.slip.id}`
+    }catch(err){
+        console.log(err)
+    }  
 }
 
 
